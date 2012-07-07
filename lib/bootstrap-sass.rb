@@ -8,7 +8,7 @@ module Bootstrap
       register_rails_engine
     elsif compass?
       # Only require compass extension if a standalone project
-      require 'bootstrap-sass/compass_functions'
+      require 'bootstrap-sass/compass_functions' unless spar?
       register_compass_extension
     elsif asset_pipeline?
       require 'sass-rails' # See: https://github.com/thomas-mcdonald/bootstrap-sass/pull/4
@@ -21,7 +21,11 @@ module Bootstrap
 
   private
   def self.asset_pipeline?
-    (defined?(::Rails) && ::Rails.version >= '3.1.0') || defined?(::Spar)
+    defined?(::Rails) && ::Rails.version >= '3.1.0'
+  end
+
+  def self.spar?
+    defined?(::Spar)
   end
 
   def self.compass?
